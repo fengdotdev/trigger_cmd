@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trigger/gui/frames/main.frame.dart';
 import 'package:trigger/gui/frames/sandbox.frame.dart';
 
 import 'package:trigger/gui/theming/eva/eva.theme.dart';
-import 'package:trigger/gui/views/demo.gui.view/demo.gui.view.dart';
 
 void main() {
   runApp(const TriggerCommandApp());

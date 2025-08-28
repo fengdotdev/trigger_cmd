@@ -10,6 +10,8 @@ class CodeTileComponent extends StatelessWidget {
   final VoidCallback onPressed;
   final String description;
   final String code;
+  final double width;
+  final double height;
 
   const CodeTileComponent({
     super.key,
@@ -19,6 +21,8 @@ class CodeTileComponent extends StatelessWidget {
     required this.onPressed,
     required this.description,
     required this.code,
+    this.width = 800,
+    this.height = 200,
   });
 
   @override
@@ -27,18 +31,41 @@ class CodeTileComponent extends StatelessWidget {
       gradient: EvaColors.magiGradient,
       hoverGradient: EvaColors.headerGradient,
       onPressed: onPressed,
-      child: Padding(
+      child: Container(
+        width: width,
+        height: height,
         padding: const EdgeInsets.all(8.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(width: 8.0),
             Icon(iconData),
             const SizedBox(width: 8.0),
-            _TitleDescriptorAndCode(
-              title: name,
-              description: description,
-              code: code,
+            Expanded(
+              child: TitleDescriptorAndCode(
+                title: name,
+                description: description,
+                code: code,
+              ),
             ),
-            if (showBadge) const Icon(Icons.security),
+            const SizedBox(width: 8.0),
+            Container(
+              padding: const EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
+                color: showBadge ? Colors.red : Colors.grey,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                showBadge ? 'SUDO' : 'USER',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8.0),
           ],
         ),
       ),
@@ -46,29 +73,41 @@ class CodeTileComponent extends StatelessWidget {
   }
 }
 
-class _TitleDescriptorAndCode extends StatelessWidget {
+class TitleDescriptorAndCode extends StatelessWidget {
   final String title;
   final String description;
   final String code;
+  final double height;
 
-  const _TitleDescriptorAndCode({
+  const TitleDescriptorAndCode({
     super.key,
     required this.title,
     required this.description,
     required this.code,
+    this.height = 200,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.bodyLarge),
-        const SizedBox(height: 4.0),
-        Text(description, style: Theme.of(context).textTheme.bodyMedium),
-        const SizedBox(height: 4.0),
-        CodeBoxComponent(code: code),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.only(left: 8.0),
+      height: height,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            selectionColor: Colors.blueAccent,
+            title,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 8.0),
+          Text(description, style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(height: 8.0),
+          CodeBoxComponent(code: code),
+        ],
+      ),
     );
   }
 }
